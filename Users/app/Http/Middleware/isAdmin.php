@@ -20,7 +20,7 @@ class isAdmin
         if (Auth::user() && Auth::user()->role_id == 3) {
             return $next($request);
         } else {
-            return json_encode(['message' => 'Access to this resource is denied.']);
+            return response()->json(['message' => 'Access denied to this api resource.', 'statusCode' => 403]);
         }
     }
 }
