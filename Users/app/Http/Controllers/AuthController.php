@@ -99,7 +99,7 @@ class AuthController extends Controller
         $id = Auth::user()->user_id;
         $data = User::with('role', 'profile', 'extendedTeacher', 'extendedStudent')->find($id);
         if (is_null($data)) {
-            return response()->json(
+            return json_encode(
                 [
                     'error' => [
                         "reason" => "required",
@@ -107,7 +107,7 @@ class AuthController extends Controller
                         "locationType" => "header",
                         "location" => "API",
                     ],
-                    "code" => 404,
+                    "statusCode" => 404,
                     "message" => "User not found in the database",
                 ],
             );

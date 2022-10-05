@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Http\Middleware\isAdmin;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -25,7 +26,7 @@ Route::post('/register', [AuthController::class, 'register']);
 
 
 Route::group(['middleware' => ['auth:api']], function () {
-    Route::get('/update', [AuthController::class, 'update']);
+    Route::post('/update', [AuthController::class, 'update']);
     Route::get('/logout', [AuthController::class, 'logout']);
     Route::get('/logoutAll', [AuthController::class, 'logoutAll']);
     Route::get('/users', function () {
@@ -33,7 +34,7 @@ Route::group(['middleware' => ['auth:api']], function () {
     });
 });
 
-Route::group(['middleware' => ['auth:api']], function () {
+Route::group(['middleware' => ['auth:api', 'isAdmin']], function () {
     Route::post('/assign', [AdminController::class, 'setAssign']);
     Route::get('/approve/{id}', [AdminController::class, 'setApprove']);
     Route::get('/show/approved', [AdminController::class, 'showApproved']);
