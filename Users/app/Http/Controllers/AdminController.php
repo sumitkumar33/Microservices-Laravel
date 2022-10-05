@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\AccountApproved;
+use App\Jobs\NotifyStudent;
+use App\Jobs\NotifyTeacher;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,7 +29,14 @@ class AdminController extends Controller
             $data->profile()->update([
                 "isApproved" => 1,
             ]);
-            // dispatch(new AccountApprsoved($data, Auth::user()));
+            $data2 = [
+                'Message' => 'AccountApproved',
+                'user_id' => $data->user_id,
+                'name' => $data->name,
+                'admin_name' => Auth::user()->name,
+                'url' => url('/dashboard'),
+            ];
+            dispatch(new NotifyTeacher($data2, $data->user_id));
             return response()->json(["message" => "Teacher has been successfully approved."]);
         } catch (\ErrorException $e) {
             $err = "Error: ".$e->getMessage();
@@ -58,21 +67,22 @@ class AdminController extends Controller
                 "isApproved" => 1,
             ]);
             $data = [
-                'msg' => "StudentAssigned",
+                'Message' => "StudentAssigned",
                 'id' => $dataStudent->extendedStudent->student_id,
                 'name' => $dataStudent->name,
                 'email' => $dataStudent->email,
             ];
             //Notify Teacher for assign of student
-            // $dataTeacher->notify(new NotifyAssign($data));
+            dispatch(new NotifyTeacher($data, $dataTeacher->user_id));
             //Notify Student for approval of account
             $data2 = [
+                'Message' => 'AccountApproved',
                 'user_id' => $dataStudent->user_id,
                 'name' => $dataStudent->name,
                 'admin_name' => Auth::user()->name,
                 'url' => url('/dashboard'),
             ];
-            // dispatch(new notify($data2));
+            dispatch(new NotifyStudent($data2, $dataStudent->user_id));
             return response()->json($dataStudent);
         } catch (\ErrorException $e) {
             return response()->json(['Message' => 'User roles do not match', 'Error' => $e->getMessage()]);
