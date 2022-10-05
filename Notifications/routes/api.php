@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NotificationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::prefix('/notifications')->group(function (){
+    Route::get('/fetch/{id}', [NotificationController::class, 'fetch']);
+    Route::get('/read/{id}', [NotificationController::class, 'markRead']);
+    Route::get('/unread/{id}', [NotificationController::class, 'markUnread']);
+    Route::get('/delete/{id}', [NotificationController::class, 'destroy']);
+    Route::post('/notify/{id}', [NotificationController::class, 'notify']);
 });

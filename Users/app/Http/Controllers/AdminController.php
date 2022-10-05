@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\AccountApproved;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +27,7 @@ class AdminController extends Controller
             $data->profile()->update([
                 "isApproved" => 1,
             ]);
-            // dispatch(new AccountApproval($data, Auth::user()));
+            // dispatch(new AccountApprsoved($data, Auth::user()));
             return response()->json(["message" => "Teacher has been successfully approved."]);
         } catch (\ErrorException $e) {
             $err = "Error: ".$e->getMessage();
