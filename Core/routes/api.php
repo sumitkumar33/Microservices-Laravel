@@ -3,6 +3,7 @@
 use App\Http\Controllers\handleApprove;
 use App\Http\Controllers\handleAuth;
 use App\Http\Controllers\handleAssign;
+use App\Http\Controllers\handleNotifications;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -16,13 +17,19 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+//handle User
 Route::get('/users', [handleAuth::class, 'index']);
 Route::post('/update', [handleAuth::class, 'authUpdate']);
 Route::post('/login', [handleAuth::class, 'authLogin']);
 Route::get('/logout', [handleAuth::class, 'authLogout']);
 Route::get('/logoutAll', [handleAuth::class, 'authLogoutAll']);
 Route::post('/register', [handleAuth::class, 'authRegister']);
+
+//handle Notifications
+Route::get('/user/notifications', [handleNotifications::class, 'fetch']);    //fetch notifications
+Route::get('/user/notifications/read', [handleNotifications::class, 'read']);    //read notifications
+Route::get('/user/notifications/unread', [handleNotifications::class, 'unread']); //unread notifications
+Route::get('/user/notifications/delete', [handleNotifications::class, 'destroy']); //delete notifications
 
 //Handle Approved 
 Route::get('/approve/{id}', [handleApprove::class, 'approve']);
