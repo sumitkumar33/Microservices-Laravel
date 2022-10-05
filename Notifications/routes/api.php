@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NotificationController;
+use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,13 @@ use App\Http\Controllers\NotificationController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::post('/approveMail', function (Request $request){
+    $email = $request->get('email');
+    $data = $request->only('name', 'admin_name', 'email');
+    Mail::to($email)->send(new \App\Mail\AccountApprove($data));
+    return json_encode(['Message'=>'Mail sent successfully.']);
+});
 
 Route::prefix('/notifications')->group(function (){
     Route::get('/fetch/{id}', [NotificationController::class, 'fetch']);

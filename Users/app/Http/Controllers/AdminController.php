@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Jobs\AccountApprove;
 use App\Jobs\AccountApproved;
 use App\Jobs\NotifyStudent;
 use App\Jobs\NotifyTeacher;
@@ -17,7 +18,7 @@ class AdminController extends Controller
     {
         $data = User::with('role', 'profile', 'extendedTeacher')->find($id);
         try {
-            if(is_null($data->profile)) {
+            if (is_null($data->profile)) {
                 throw new \Exception('Teacher has not completed his profile.');
             }
             if (is_null($data)) {
@@ -32,14 +33,18 @@ class AdminController extends Controller
             $data2 = [
                 'Message' => 'AccountApproved',
                 'user_id' => $data->user_id,
+                'email' => $data->email,
                 'name' => $data->name,
                 'admin_name' => Auth::user()->name,
                 'url' => url('/dashboard'),
             ];
-            dispatch(new NotifyTeacher($data2, $data->user_id));
+            //Once the student/teacher account has been approved by the admin, trigger a mail to the
+            //respective user.
+            //Create in app notifications for above 2 cases.
+            dispatch(new AccountApprove($data2, $data->user_id));
             return response()->json(["message" => "Teacher has been successfully approved."]);
         } catch (\ErrorException $e) {
-            $err = "Error: ".$e->getMessage();
+            $err = "Error: " . $e->getMessage();
             return json_encode($err);
         }
     }
@@ -72,17 +77,21 @@ class AdminController extends Controller
                 'name' => $dataStudent->name,
                 'email' => $dataStudent->email,
             ];
-            //Notify Teacher for assign of student
+            //Dispatch DB Notifications
+            //Create a notification for the teacher, when there is a new student assigned to him.
             dispatch(new NotifyTeacher($data, $dataTeacher->user_id));
-            //Notify Student for approval of account
             $data2 = [
                 'Message' => 'AccountApproved',
                 'user_id' => $dataStudent->user_id,
+                'email' => $dataStudent->email,
                 'name' => $dataStudent->name,
                 'admin_name' => Auth::user()->name,
                 'url' => url('/dashboard'),
             ];
-            dispatch(new NotifyStudent($data2, $dataStudent->user_id));
+            //Once the student/teacher account has been approved by the admin, trigger a mail to the
+            //respective user.
+            //Create in app notifications for above 2 cases.
+            dispatch(new AccountApprove($data2, $dataStudent->user_id));
             return response()->json($dataStudent);
         } catch (\ErrorException $e) {
             return response()->json(['Message' => 'User roles do not match', 'Error' => $e->getMessage()]);
