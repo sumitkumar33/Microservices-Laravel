@@ -25,7 +25,7 @@
             AllowOverride All
         </Directory>
     
-# SchoolApp Follows following Database Schema
+# Database Schema followed by SchoolApp Microservices
 
 ![Database_schema](https://raw.githubusercontent.com/sumitkumar33/Microservices-Laravel/master/Docs/dbLaravel.png)
     
