@@ -30,7 +30,7 @@ class Kernel extends ConsoleKernel
                 // $e = $admin->email;
                 dispatch(new AdminDigest($data, $count));
             }
-        })->everyMinute();
+        })->daily();
     }
 
     /**
