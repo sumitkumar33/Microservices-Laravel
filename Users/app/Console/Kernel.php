@@ -2,7 +2,9 @@
 
 namespace App\Console;
 
+use App\Jobs\AdminDigest;
 use Illuminate\Console\Scheduling\Schedule;
+use App\Models\User;
 use Illuminate\Foundation\Console\Kernel as ConsoleKernel;
 
 class Kernel extends ConsoleKernel
@@ -15,7 +17,20 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        // $schedule->command('inspire')->hourly();
+        $schedule->command('queue:work --stop-when-empty')->everyMinute();
+
+        $schedule->call(function () {
+            $count = User::with('getNotApproved')->count();
+            $admins = User::where('role_id', '=', 3)->get();
+            foreach ($admins as $admin) {
+                $data = [
+                    'email' => $admin['email'],
+                    'name' => $admin['name'],
+                ];
+                // $e = $admin->email;
+                dispatch(new AdminDigest($data, $count));
+            }
+        })->everyMinute();
     }
 
     /**

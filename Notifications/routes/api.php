@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\NotificationController;
+use App\Jobs\AdminDigest;
 use Illuminate\Support\Facades\Mail;
 
 /*
@@ -17,10 +18,25 @@ use Illuminate\Support\Facades\Mail;
 */
 
 Route::post('/approveMail', function (Request $request){
+    $request->validate([
+        'email' => 'required',
+        'name' => 'required',
+        'admin_name' => 'required',
+    ]);
     $email = $request->get('email');
     $data = $request->only('name', 'admin_name', 'email');
     Mail::to($email)->send(new \App\Mail\AccountApprove($data));
     return json_encode(['Message'=>'Mail sent successfully.']);
+});
+
+Route::post('/DailyDigest', function (Request $request){
+    $request->validate([
+        'name' => 'required',
+        'email' => 'required',
+        'count' => 'required',
+    ]);
+    $data = $request->only('name', 'count', 'email');
+    Mail::to($request['email'])->send(new \App\Mail\AdminDigest($data));
 });
 
 Route::prefix('/notifications')->group(function (){
