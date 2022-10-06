@@ -25,6 +25,11 @@
             AllowOverride All
         </Directory>
     
+    Migrate Database tables:
+        php artisan migrate:fresh
+    Seed Users database roles
+        php artisan db:seed
+    
 # Database Schema followed by SchoolApp Microservices
 
 ![Database_schema](https://raw.githubusercontent.com/sumitkumar33/Microservices-Laravel/master/Docs/dbLaravel.png)
