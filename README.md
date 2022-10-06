@@ -29,3 +29,9 @@
 
 ![Database_schema](https://raw.githubusercontent.com/sumitkumar33/Microservices-Laravel/master/Docs/dbLaravel.png)
     
+# List of dependencies used by Microservice SchoolApp application
+
+    Laravel/Laravel -> dist-package for laravel framework
+    Laravel/Passport -> Used for oAuth2 implementation (Authentication and Authorization)
+    staudenmeir/eloquent-has-many-deep -> Used for accessing multiple tables that cannot be accessed by has on through
+    fzaninotto/faker -> Used for generating fake informations in factory methods
