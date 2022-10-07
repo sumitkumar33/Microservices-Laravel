@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Models\User;
+use App\Notifications\ApprovalNotification;
 
 /*
 |--------------------------------------------------------------------------
@@ -15,8 +17,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
-});
-
-Route::get('/a', function () {
-    echo 'test page';
 });

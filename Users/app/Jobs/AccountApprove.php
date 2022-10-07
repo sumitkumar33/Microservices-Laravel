@@ -14,8 +14,11 @@ use Illuminate\Support\Facades\Log;
 class AccountApprove implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
-    private $data;
     private $id;
+    private $data;
+    //
+    private $message;
+    private $user_id;
     public $name;
     public $email;
     public $admin_name;
@@ -28,10 +31,13 @@ class AccountApprove implements ShouldQueue
     public function __construct($dump, $id)
     {
         $this->data = $dump;
+        $this->id = $id;
+        //
+        $this->message = $dump['message'];
+        $this->user_id = $dump['user_id'];
         $this->name = $dump['name'];
         $this->email = $dump['email'];
         $this->admin_name = $dump['admin_name'];
-        $this->id = $id;
     }
 
     /**

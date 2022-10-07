@@ -31,7 +31,7 @@ class AdminController extends Controller
                 "isApproved" => 1,
             ]);
             $data2 = [
-                'Message' => 'AccountApproved',
+                'message' => 'AccountApproved',
                 'user_id' => $data->user_id,
                 'email' => $data->email,
                 'name' => $data->name,
@@ -72,16 +72,17 @@ class AdminController extends Controller
                 "isApproved" => 1,
             ]);
             $data = [
-                'Message' => "StudentAssigned",
-                'id' => $dataStudent->extendedStudent->student_id,
+                'message' => "StudentAssigned",
+                'user_id' => $dataStudent->extendedStudent->student_id,
                 'name' => $dataStudent->name,
                 'email' => $dataStudent->email,
+                'admin_name' => Auth::user()->name,
             ];
             //Dispatch DB Notifications
             //Create a notification for the teacher, when there is a new student assigned to him.
             dispatch(new NotifyTeacher($data, $dataTeacher->user_id));
             $data2 = [
-                'Message' => 'AccountApproved',
+                'message' => 'AccountApproved',
                 'user_id' => $dataStudent->user_id,
                 'email' => $dataStudent->email,
                 'name' => $dataStudent->name,
