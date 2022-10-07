@@ -29,20 +29,12 @@
         php artisan migrate:fresh
     Seed Users database roles
         php artisan db:seed
+        
 # !!IMPORTANT!!
 
     Beta features make use of modifications of vendor packages to setup follow steps below:
-    1. In Notifications microservice 
-        -> goto -> /vendor/laravel/framework/src/Illuminate/Notifications/DatabaseNotification.php
-        -> Add the following below -> <b> protected $table = 'notifications'; </b> (line 35)
-                /*
-                * The database to connect with notifications
-                * 
-                *  @var string
-                */
-                public $connection = 'mysql'; //Replace with notifications database connection.
-    2. Edit .env file make sure that 'DB_CONNECTION' is pointing to notifications database and 'DB_CONNECTION2' is pointing to users database.
-    3. .env.example is edited with the new environment configurations.
+    1. Edit .env file make sure that 'DB_CONNECTION' is pointing to notifications database and 'DB_CONNECTION2' is pointing to users database.
+    2. .env.example is edited with the new environment configurations.
 
 
 # Database Schema followed by SchoolApp Microservices
