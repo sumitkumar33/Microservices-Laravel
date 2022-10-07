@@ -37,27 +37,27 @@
     2. .env.example is edited with the new environment configurations.
 
 # API documentation
-URI Unauthenticated Users
-    [POST]/api/login - Expects a email and password and returns api token if authenticated.
-    [POST]/api/register - Expects multiple inputs for profile and student data and returns api token.
-URI for Authenticated Users
-    [GET]/api/users - Returns data of registered users.
-    [POST]/api/update - Updates any field of user profile (Except password).
-    [GET]/api/logout - Logout user and revokes current token.
-    [GET]/api/logoutAll - Logout user and revokes all tokens linked to user profile.
-    [GET]/api/user/notifications - Returns all notifications associated with user profile.
-    [GET]/api/user/notifications/read - Mark all notifications as read.
-    [GET]/api/user/notifications/unread - Mark all notifications as unread.
-    [GET]/api/user/notifications/delete - Delete all notifications associated with user profile.
-URI for Authenticated Administrators
-    [GET]/api/show/approved - Returns all approved users.
-    [GET]/api/show/approved/students - Returns all approved students.
-    [GET]/api/show/approved/teachers - Returns all approved teachers.
-    [GET]/api/show/notApproved - Returns all not Approved users.
-    [GET]/api/show/notApproved/students - Returns all not Approved students.
-    [GET]/api/show/notApproved/teachers - Returns all not Approved teachers.
-    [GET]/api/approve/{id} - Expects teacher's user_id as id on url get request and Update user profile as approved.
-    [POST]/api/assign - Expects student's user_id as student_user_id and teacher's user_id as teacher_user_id to be assigned, Assign student to teacher and Mark student profile as approved.
+    URI Unauthenticated Users
+        [POST]/api/login - Expects a email and password and returns api token if authenticated.
+        [POST]/api/register - Expects multiple inputs for profile and student data and returns api token.
+    URI for Authenticated Users
+        [GET]/api/users - Returns data of registered users.
+        [POST]/api/update - Updates any field of user profile (Except password).
+        [GET]/api/logout - Logout user and revokes current token.
+        [GET]/api/logoutAll - Logout user and revokes all tokens linked to user profile.
+        [GET]/api/user/notifications - Returns all notifications associated with user profile.
+        [GET]/api/user/notifications/read - Mark all notifications as read.
+        [GET]/api/user/notifications/unread - Mark all notifications as unread.
+        [GET]/api/user/notifications/delete - Delete all notifications associated with user profile.
+    URI for Authenticated Administrators
+        [GET]/api/show/approved - Returns all approved users.
+        [GET]/api/show/approved/students - Returns all approved students.
+        [GET]/api/show/approved/teachers - Returns all approved teachers.
+        [GET]/api/show/notApproved - Returns all not Approved users.
+        [GET]/api/show/notApproved/students - Returns all not Approved students.
+        [GET]/api/show/notApproved/teachers - Returns all not Approved teachers.
+        [GET]/api/approve/{id} - Expects teacher's user_id as id on url get request and Update user profile as approved.
+        [POST]/api/assign - Expects student's user_id as student_user_id and teacher's user_id as teacher_user_id   to be assigned, Assign student to teacher and Mark student profile as approved.
 
 # Database Schema followed by SchoolApp Microservices
 
