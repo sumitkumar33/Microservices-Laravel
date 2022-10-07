@@ -17,13 +17,16 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+//Functions for unAuthenticated users
+Route::post('/register', [handleAuth::class, 'authRegister']);
+Route::post('/login', [handleAuth::class, 'authLogin']);
+
 //handle User
 Route::get('/users', [handleAuth::class, 'index']);
 Route::post('/update', [handleAuth::class, 'authUpdate']);
-Route::post('/login', [handleAuth::class, 'authLogin']);
 Route::get('/logout', [handleAuth::class, 'authLogout']);
 Route::get('/logoutAll', [handleAuth::class, 'authLogoutAll']);
-Route::post('/register', [handleAuth::class, 'authRegister']);
 
 //handle Notifications
 Route::get('/user/notifications', [handleNotifications::class, 'fetch']);    //fetch notifications
