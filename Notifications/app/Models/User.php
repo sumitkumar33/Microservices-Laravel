@@ -4,13 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Laravel\Passport\HasApiTokens;
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use Illuminate\Notifications\Notifiable;
+use App\Traits\ExtendedNotifiable;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, ExtendedNotifiable;
     protected $connection = 'mysql2';
     protected $primaryKey = 'user_id';
     protected $table = 'users';

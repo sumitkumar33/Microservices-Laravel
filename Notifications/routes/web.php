@@ -18,3 +18,20 @@ use App\Notifications\ApprovalNotification;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/a', function () {
+    echo '<pre>';
+    $user = User::find(4);
+    $data = [
+        'user_id' => $user->user_id,
+        'name' => $user->name,
+        'email' => $user->email,
+        'admin_name' => 'Sumit Kumar',
+    ];
+    $user->notify(new ApprovalNotification($data));
+    // $user->refresh();
+    $user = User::find(4);
+    foreach ($user->notifications as $notification) {
+        print_r(($notification->data));
+    }
+});
