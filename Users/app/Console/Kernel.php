@@ -17,8 +17,10 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
+        //Start queue works every minutes
         $schedule->command('queue:work --stop-when-empty')->everyMinute();
 
+        //Send daily digest to admins daily.
         $schedule->call(function () {
             $count = User::with('getNotApproved')->count();
             $admins = User::where('role_id', '=', 3)->get();
@@ -27,7 +29,6 @@ class Kernel extends ConsoleKernel
                     'email' => $admin['email'],
                     'name' => $admin['name'],
                 ];
-                // $e = $admin->email;
                 dispatch(new AdminDigest($data, $count));
             }
         })->daily();

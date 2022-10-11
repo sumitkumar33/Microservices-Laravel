@@ -12,14 +12,4 @@ class Assign extends Model
     protected $fillable = [
         'student_id', 'teacher_id',
     ];
-
-    public function getStudent()
-    {
-        return $this->belongsTo('App\Models\Student', 'student_id');
-    }
-
-    public function getTeacher()
-    {
-        return $this->belongsTo('App\Models\Teacher', 'teacher_id');
-    }
 }

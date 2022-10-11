@@ -6,6 +6,7 @@ trait HasDatabaseExtendedNotifications
 {
     /**
      * Get the entity's notifications.
+     * Modified implementation of DatabaseNotification to ExtendedDatabaseNotification
      *
      * @return \Illuminate\Database\Eloquent\Relations\MorphMany
      */

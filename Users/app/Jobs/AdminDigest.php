@@ -30,7 +30,7 @@ class AdminDigest implements ShouldQueue
 
     /**
      * Execute the job.
-     *
+     * Send daily report to all administrators.
      * @return void
      */
     public function handle()

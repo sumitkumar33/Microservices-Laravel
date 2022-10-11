@@ -47,9 +47,11 @@ class AccountApprove implements ShouldQueue
      */
     public function handle()
     {
-        //Once the student/teacher account has been approved by the admin, trigger a mail to the
-        //respective user.
-        //Create in app notifications for above 2 cases.
+        /**
+        * Once the student/teacher account has been approved by the admin, trigger a mail to the
+        * respective user.
+        * Create in app notifications for above 2 cases.
+        **/
         Http::post(
             'http://notifications.myproject.com/api/notifications/notify/' . $this->id,
             $this->data

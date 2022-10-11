@@ -9,6 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class User extends Model
 {
+    /**
+     * Model makes use of custom trait ExtendedNotifiable
+     * As our notifiable implementation are in separate database
+     * This trait overrides the default connection implementation and 
+     * allow to use custom connection for storing and retrieving notification
+     * from new connections.
+     */
     use HasApiTokens, HasFactory, ExtendedNotifiable;
     protected $connection = 'mysql2';
     protected $primaryKey = 'user_id';

@@ -3,17 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\AccountApprove;
-use App\Jobs\AccountApproved;
-use App\Jobs\NotifyStudent;
 use App\Jobs\NotifyTeacher;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
-use Facade\FlareClient\Http\Response;
 
 class AdminController extends Controller
 {
+    /**
+     * @method Set the teacher profile as approved.
+     */
     public function setApprove($id)
     {
         $data = User::with('role', 'profile', 'extendedTeacher')->find($id);
@@ -49,6 +49,10 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * @method Assigns student_user_id to teacher_user_id in the database.
+     *  Approves student profile after assigning of teacher.
+     */
     public function setAssign(Request $request)
     {
         try {
@@ -108,6 +112,9 @@ class AdminController extends Controller
         }
     }
 
+    /**
+     * @method Returns all approved users from the database.
+     */
     public function showApproved()
     {
         $data = User::with('getApproved')->get();
@@ -124,6 +131,9 @@ class AdminController extends Controller
         return response()->json($response);
     }
 
+    /**
+     * @method Returns all approved students from the database.
+     */
     public function showApprovedStudents()
     {
         $data = User::with('getApproved')->get();
@@ -140,6 +150,9 @@ class AdminController extends Controller
         return response()->json($response);
     }
 
+    /**
+     * @method Returns all approved teachers from the database.
+     */
     public function showApprovedTeachers()
     {
         $data = User::with('getApproved')->get();
@@ -156,6 +169,9 @@ class AdminController extends Controller
         return response()->json($response);
     }
 
+    /**
+     * @method Returns all not approved users from the database.
+     */
     public function showNotApproved()
     {
         $data = User::with('getNotApproved')->get();
@@ -173,6 +189,9 @@ class AdminController extends Controller
         return response()->json($response);
     }
 
+    /**
+     * @method Returns all not approved students from the database.
+     */
     public function showNotApprovedStudents()
     {
         $data = User::with('getNotApproved')->get();
@@ -190,6 +209,9 @@ class AdminController extends Controller
         return response()->json($response);
     }
 
+    /**
+     * @method Returns all not approved teachers from the database.
+     */
     public function showNotApprovedTeachers()
     {
         $data = User::with('getNotApproved')->get();

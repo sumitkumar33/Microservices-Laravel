@@ -9,7 +9,7 @@ class jsonResponse
 {
     /**
      * Handle an incoming request.
-     *
+     * Add Accept and Content-Type headers to the request
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse

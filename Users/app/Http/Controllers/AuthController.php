@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    /**
+     * @method Handles login requests from API Gateway.
+     *  Also generates Personal Authentication Tokens and returns to user.
+     */
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -23,20 +27,41 @@ class AuthController extends Controller
         return json_encode(['userData' => Auth::user(), 'token' => $token->accessToken, 'statusCode' => 200,]);
     }
 
+    /**
+     * @method Revokes the current tokens and logout user session.
+     */
     public function logout()
     {
         auth()->user()->token()->revoke();
+        Auth::logout();
         return json_encode(['Message' => 'Successfully logged out.']);
     }
 
+    /**
+     * @method Revokes all tokens and logout authenticated user session.
+     */
     public function logoutAll()
     {
         Token::where('user_id', Auth::user()->user_id)->update(['revoked' => true]);
+        Auth::logout();
         return json_encode(['message' => 'Logout from all devices successful and all user tokens are revoked']);
     }
 
+    /**
+     * @method Handles registration functionality.
+     */
     public function register(Request $request)
     {
+        $request->validate([
+            'name' => 'alpha_dash|required',
+            'email' => 'email|required',
+            'password' => 'required',
+            'role_id' => 'required|gte:1|lte:2',
+            'address' => 'required|alpha_dash',
+            'profile_image' => 'max:1999',
+            'current_school' => 'required|alpha_dash',
+            'previous_school' => 'required|alpha_dash',
+        ]);
         try {
             $data = new User;
             $data->name = $request['name'];
@@ -58,6 +83,10 @@ class AuthController extends Controller
             ]);
             //Create data according to roles
             if ($data->role_id == 1) {
+                $request->validate([
+                    'parent_name' => 'required|alpha_dash',
+                    'parent_contact' => 'required|alpha_dash',
+                ]);
                 $data->extendedStudent()->create([
                     "parent_name" => $request['parent_name'],
                     "parent_contact" => $request['parent_contact'],
@@ -65,6 +94,10 @@ class AuthController extends Controller
                     'created_at' => $data->created_at,
                 ]);
             } elseif ($data->role_id == 2) {
+                $request->validate([
+                    'expertise_subject' => 'required|alpha_dash',
+                    'experience' => 'required|numeric',
+                ]);
                 $data->extendedTeacher()->create([
                     "expertise_subject" => $request['expertise_subject'],
                     "experience" => $request['experience'],
@@ -94,8 +127,26 @@ class AuthController extends Controller
         }
     }
 
+    /**
+     * @method Handles user data update functions.
+     *  not all fields are necessary!
+     */
     public function update(Request $request)
     {
+        $request->validate([
+            'name' => 'alpha_dash',
+            'email' => 'email',
+            'password' => 'string',
+            'role_id' => 'gte:1|lte:2',
+            'address' => 'alpha_dash',
+            'profile_image' => 'max:1999',
+            'current_school' => 'alpha_dash',
+            'previous_school' => 'alpha_dash',
+            'parent_name' => 'alpha_dash',
+            'parent_contact' => 'numeric',
+            'expertise_subject' => 'alpha_dash',
+            'experience' => 'numeric',
+        ]);
         $id = Auth::user()->user_id;
         $data = User::with('role', 'profile', 'extendedTeacher', 'extendedStudent')->find($id);
         if (is_null($data)) {

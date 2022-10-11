@@ -29,12 +29,11 @@ class NotifyTeacher implements ShouldQueue
 
     /**
      * Execute the job.
-     *
+     * Send in-app notifications to teachers when student is assigned
      * @return void
      */
     public function handle()
     {
-        // Log::info(json_encode($this->id));
         Http::post('http://notifications.myproject.com/api/notifications/notify/'.$this->id,
                 $this->data);
     }
