@@ -33,8 +33,7 @@ class AuthController extends Controller
     public function logout()
     {
         auth()->user()->token()->revoke();
-        Auth::logout();
-        return json_encode(['Message' => 'Successfully logged out.']);
+        return response(['Message' => 'Successfully logged out.'], 200);
     }
 
     /**
@@ -43,8 +42,7 @@ class AuthController extends Controller
     public function logoutAll()
     {
         Token::where('user_id', Auth::user()->user_id)->update(['revoked' => true]);
-        Auth::logout();
-        return json_encode(['message' => 'Logout from all devices successful and all user tokens are revoked']);
+        return response(['message' => 'Logout from all devices successful and all user tokens are revoked'],200);
     }
 
     /**
@@ -134,7 +132,7 @@ class AuthController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'name' => 'alpha_dash',
+            'name' => 'regex:/^[a-zA-Z\s]+$/',
             'email' => 'email',
             'password' => 'string',
             'role_id' => 'gte:1|lte:2',

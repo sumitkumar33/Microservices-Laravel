@@ -58,7 +58,7 @@ class handleAuth extends Controller
             return response()->json(['Message' => 'Unauthenticated.']);
         }
         $result = json_decode(Http::withToken($this->token)->get('users.myproject.com/api/logout'));
-        return response()->json($result, 200);
+        return response()->json(!is_null($result) ? $result : ['Message: ' => 'User token is already revoked.']);
     }
 
     /**
@@ -71,7 +71,7 @@ class handleAuth extends Controller
             return response()->json(['Message' => 'Unauthenticated']);
         }
         $result = json_decode(Http::withToken($this->token)->get('users.myproject.com/api/logoutAll'));
-        return response()->json($result, 200);
+        return response()->json(!is_null($result) ? $result : ['Message: ' => 'User token is already revoked.']);
     }
 
     /**
@@ -138,7 +138,7 @@ class handleAuth extends Controller
             return response()->json(['Message' => 'Unauthenticated']);
         }
         $request->validate([
-            'name' => 'alpha_dash',
+            'name' => 'regex:/^[a-zA-Z\s]+$/',
             'email' => 'email',
             'password' => 'string',
             'address' => 'alpha_dash',
